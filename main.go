@@ -71,7 +71,6 @@ func logError(context string, err error) {
 		log.Printf("%s: %v\n", context, err)
 	}
 }
-
 func initializeUserQuotas() {
 	userQuotasFile = os.Getenv(userQuotasFileEnvVar)
 	if userQuotasFile == "" {
@@ -82,6 +81,12 @@ func initializeUserQuotas() {
 	if err != nil {
 		log.Fatal("Failed to read user quotas:", err)
 	}
+
+	if len(contents) == 0 {
+		log.Fatal("User quotas file is empty")
+	}
+
+	fmt.Printf("User Quotas File Contents: %s\n", contents) // Additional logging to debug
 
 	err = json.Unmarshal(contents, &userQuotas)
 	if err != nil {
